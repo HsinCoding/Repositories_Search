@@ -35,12 +35,14 @@ final class APIManager {
                     guard let fullName = item[ObjectKeys.fullName.rawValue] as? String else { return }
                     guard let owner = item[ObjectKeys.owner.rawValue] as? [String: Any] else { return }
                     guard let avatarURL = owner[ObjectKeys.avatarURL.rawValue] as? String else { return }
+                    guard let htmlURLString = owner[ObjectKeys.htmlURL.rawValue] as? String else { return }
                     items.append(.init(
                         id: id,
                         name: name,
                         fullName: fullName,
                         isPrivate: isPrivate,
-                        avatarURL: avatarURL
+                        avatarURL: avatarURL,
+                        htmlURLString: htmlURLString
                     ))
                 }
                 let model = RepositoriesModel(totalCount: totalCount, incompleteResults: incompleteResults, items: items)

@@ -11,8 +11,6 @@ final class SearchViewModel {
     var items: [Repository] = []
     var searchItems: [Repository] = []
     var searchText: String = ""
-    
-//    private let coordinator: GroupCoordinatorProtocol
         
     func searchAPIHandler(items: [Repository]) {
         self.items = items

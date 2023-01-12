@@ -18,7 +18,6 @@ final class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let groupCoordinator = GroupCoordinator(navigationController: navigationController)
         self.viewModel = .init()
         setupDelegate()
         setupViews()
@@ -40,16 +39,14 @@ final class SearchViewController: UIViewController {
         reminderLabel.translatesAutoresizingMaskIntoConstraints = false
         emptyImageView.translatesAutoresizingMaskIntoConstraints = false
         
+        emptyImageView.image = UIImage(named: "ic_empty")
+        
         activityIndicator.style = .large
         activityIndicator.center = self.view.center
         reminderLabel.numberOfLines = 0
         reminderLabel.textAlignment = .center
         searchBar.placeholder = viewModel?.searchBarPlaceholderText
-        
-        
-        reminderLabel.backgroundColor = .green
-        emptyImageView.backgroundColor = .blue
-       
+        reminderLabel.textColor = .lightGray
     }
     
     private func setupHierarchy() {
@@ -107,7 +104,8 @@ extension SearchViewController: UITableViewDataSource {
                 name: model.name,
                 fullName: model.fullName,
                 isPrivate: model.isPrivate,
-                avatarURL: model.avatarURL
+                avatarURL: model.avatarURL,
+                htmlURLString: model.htmlURLString
             )
             cell.configure(with: viewModel)
         }
@@ -117,10 +115,12 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       let vc = WebViewController()
-        vc.view.backgroundColor = .red
-//        self.pushViewController(vc, animated: true)
-        self.present(vc, animated: true)
+        let vc = WebViewController()
+        if let model = viewModel?.searchItems[indexPath.row],
+           let htmlURL = URL(string: model.htmlURLString){
+            vc.viewModel = .init(url: htmlURL)
+            self.present(vc, animated: true)
+        }
     }
 }
 

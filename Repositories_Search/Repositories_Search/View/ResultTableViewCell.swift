@@ -27,8 +27,6 @@ final class ResultTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        self.backgroundColor = .purple
-        avatarsImage.backgroundColor = .yellow
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         avatarsImage.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,6 +83,7 @@ extension ResultTableViewCell {
         let fullName: String
         let isPrivate: Bool
         let avatarURL: String
+        let htmlURLString: String
     }
 }
 

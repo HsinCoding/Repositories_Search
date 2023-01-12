@@ -10,6 +10,7 @@ import WebKit
 
 final class WebViewController: UIViewController, WKUIDelegate {
     
+    var viewModel: ViewModel?
     private let webViewContainer = UIView()
     lazy var webView: WKWebView = {
         let configurations = WKWebViewConfiguration()
@@ -20,12 +21,30 @@ final class WebViewController: UIViewController, WKUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .blue
-        self.view.addSubview(webViewContainer)
-        webViewContainer.backgroundColor = .red
-        webViewContainer.addSubview(webView)
+        
+        guard let viewModel = viewModel else { return }
+
+        setupViews()
+        setupHierarchy()
+        setupConstraints()
+        
+        DispatchQueue.main.async {
+            let request = URLRequest(url: viewModel.url)
+            self.webView.load(request)
+        }
+    }
+
+    func setupViews() {
         webViewContainer.translatesAutoresizingMaskIntoConstraints = false
         webView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func setupHierarchy() {
+        self.view.addSubview(webViewContainer)
+        webViewContainer.addSubview(webView)
+    }
+    
+    func setupConstraints() {
         
         NSLayoutConstraint.activate([
             webViewContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -40,15 +59,11 @@ final class WebViewController: UIViewController, WKUIDelegate {
             webView.bottomAnchor.constraint(equalTo: self.webViewContainer.bottomAnchor),
             webView.trailingAnchor.constraint(equalTo: self.webViewContainer.trailingAnchor),
         ])
-        
-            
-        DispatchQueue.main.async {
-            let myURL = URL(string:"https://www.apple.com")
-            let myRequest = URLRequest(url: myURL!)
-            self.webView.load(myRequest)
-        }
-        
-        
-       
+    }
+}
+
+extension WebViewController {
+    struct ViewModel {
+        var url: URL
     }
 }

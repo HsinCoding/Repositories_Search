@@ -19,4 +19,5 @@ struct Repository {
     let fullName: String
     let isPrivate: Bool
     let avatarURL: String
+    let htmlURLString: String
 }

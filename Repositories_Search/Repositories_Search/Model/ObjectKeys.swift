@@ -17,4 +17,5 @@ enum ObjectKeys: String {
     case fullName = "full_name"
     case owner = "owner"
     case avatarURL = "avatar_url"
+    case htmlURL = "html_url"
 }
