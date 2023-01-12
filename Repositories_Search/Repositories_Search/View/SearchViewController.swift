@@ -119,6 +119,7 @@ extension SearchViewController: UITableViewDelegate {
         if let model = viewModel?.searchItems[indexPath.row],
            let htmlURL = URL(string: model.htmlURLString){
             vc.viewModel = .init(url: htmlURL)
+            vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
         }
     }

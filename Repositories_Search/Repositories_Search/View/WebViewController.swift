@@ -12,6 +12,7 @@ final class WebViewController: UIViewController, WKUIDelegate {
     
     var viewModel: ViewModel?
     private let webViewContainer = UIView()
+    private let closeButton = UIButton()
     lazy var webView: WKWebView = {
         let configurations = WKWebViewConfiguration()
         let webview = WKWebView(frame: .zero, configuration: configurations)
@@ -35,16 +36,29 @@ final class WebViewController: UIViewController, WKUIDelegate {
     }
 
     func setupViews() {
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
         webViewContainer.translatesAutoresizingMaskIntoConstraints = false
         webView.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
+        closeButton.setImage(UIImage(named: "ic_close"), for: .normal)
     }
+    
+    
     
     func setupHierarchy() {
         self.view.addSubview(webViewContainer)
         webViewContainer.addSubview(webView)
+        self.view.addSubview(closeButton)
     }
     
     func setupConstraints() {
+        
+        NSLayoutConstraint.activate([
+            closeButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -44),
+            closeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor, multiplier: 1)
+        ])
         
         NSLayoutConstraint.activate([
             webViewContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -59,6 +73,10 @@ final class WebViewController: UIViewController, WKUIDelegate {
             webView.bottomAnchor.constraint(equalTo: self.webViewContainer.bottomAnchor),
             webView.trailingAnchor.constraint(equalTo: self.webViewContainer.trailingAnchor),
         ])
+    }
+    
+    @objc func close() {
+        self.dismiss(animated: true)
     }
 }
 
