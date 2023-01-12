@@ -130,6 +130,7 @@ extension SearchViewController: UISearchBarDelegate {
             updateUI()
             tableView.reloadData()
         } else {
+            self.searchBar.isUserInteractionEnabled = false
             activityIndicator.startAnimating()
         }
     }
@@ -141,6 +142,7 @@ extension SearchViewController: APIManagerDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.updateUI()
+            self.searchBar.isUserInteractionEnabled = true
             self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
         }
